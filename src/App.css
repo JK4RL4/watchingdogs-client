@@ -1,0 +1,1492 @@
+@font-face{
+  font-family: 'paws';
+  src: url('./font/paws.ttf'); 
+}
+
+@font-face{
+  font-family: "bone";
+  src: url("./font/bone.ttf"); 
+}
+
+@font-face{
+  font-family: "meows";
+  src: url("./font/meows.ttf"); 
+}
+
+body {
+  overflow: hidden;
+}
+
+body::after{
+  position:absolute; width:0; height:0; overflow:hidden; z-index:-1; 
+  content: url('./img/dog_card_background.png') 
+           url('./img/dog_card_background_turn.png');
+}
+
+.game-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url('./img/animals_background.png') no-repeat;
+  background-size: 100% 50%;
+  background-position: 0 0;
+}
+
+.hidden { display: none; }
+
+.multiline { white-space: pre-wrap; }
+
+
+
+
+
+/******************************************* HEADER *******************************************/
+
+.header {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  width: 100%;
+  height: 10vh;
+}
+
+.header-menu {
+  position: absolute;
+  top: 2vh;
+  right: 5%;
+  width: 5vh;
+  height: 5vh;
+  border: none;
+  outline: none;
+  background: url('./img/buttons/menu.png') no-repeat;
+  background-size: 100% 100%;
+  filter: drop-shadow(0.1rem 0.1rem 0.2rem black);
+}
+
+.header-game-menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 60vh;
+  background-color: white;
+  border-radius: 1rem;
+  border: 0.5rem solid black;
+}
+
+.header-menu-modal {
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-menu-button {
+  margin: 1rem 0;
+  font-family: 'paws';
+  font-weight: bold;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  outline: none;
+  color: maroon;
+  text-shadow: 1px 1px 1px black;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.timer {
+  position: absolute;
+  z-index: 1;
+  top: 1.5vh;
+  left: 35%;
+  height: 5vh;
+  width: 30%;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  background-size: 30% 100%;
+  border: 0.1rem solid black;
+  border-radius: 1rem;
+  box-shadow: 0.1rem 0.1rem 0.2rem black;
+  overflow: hidden;
+}
+
+.timer-bar  {
+  position: absolute;
+  z-index: -1; 
+  height: 100%;
+  width: 100%;
+  padding: 0 0.5rem;  
+  background: url('./img/timer_background.png');
+  background-size: 30% 100%;
+  border: 0.05rem solid black;
+  border-radius: 1rem;
+}
+
+@keyframes bar-progress-linear {
+  0% {transform: translateX(-100%);}
+  100% {transform: translate(0%);}
+}
+
+@keyframes bar-progress-troll {
+  0% {transform: translateX(-100%)}
+  80% {transform: translate(-40%)} 
+  90% {transform: translate(-60%)} 
+  100% {transform: translate(0%)}
+}
+
+@keyframes bar-progress-easy-in {
+  0% {transform: translateX(-100%)}
+  20% {transform: translate(-80%)} 
+  70% {transform: translate(-70%)} 
+  80% {transform: translate(-60%)} 
+  100% {transform: translate(0%)}
+}
+
+@keyframes bar-progress-easy-out {
+  0% {transform: translateX(-100%)}
+  20% {transform: translate(-60%)} 
+  70% {transform: translate(-30%)} 
+  80% {transform: translate(-15%)} 
+  100% {transform: translate(0%)}
+}
+
+.timer-bar-progress-easy-out {
+  animation-name: bar-progress-easy-out;
+  animation-duration: 30s;
+  animation-timing-function: linear;
+}
+
+.timer-bar-progress-easy-in {
+  animation-name: bar-progress-easy-in;
+  animation-duration: 30s;
+  animation-timing-function: linear;
+}
+
+.timer-bar-progress-troll {
+  animation-name: bar-progress-troll;
+  animation-duration: 30s;
+  animation-timing-function: linear;
+}
+
+.timer-bar-progress-linear {
+  animation-name: bar-progress-linear;
+  animation-duration: 30s;
+  animation-timing-function: linear;
+}
+
+.timer-level {
+  font-family: 'paws';
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.timer-clock {
+  width: 4.5vh;
+  height: 5vh;
+  filter: drop-shadow(0 0 1px black)
+}
+
+.timer-clock-std {
+  background-image: url('./img/sand_clock.gif');
+  background-size: 100% 100%;
+}
+
+.timer-clock-plus {
+  background-image: url('./img/sand_clock_plus.gif');
+  background-size: 100% 100%;
+}
+
+.timer-clock-plus-plus {
+  background-image: url('./img/sand_clock_plus_plus.gif');
+  background-size: 100% 100%;
+}
+
+.dog-lives {
+  position: absolute;
+  top: 1.5vh;
+  left: 5%;
+  width: 4rem;
+  height: 5vh;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  border: 0.1rem solid black;
+  border-radius: 1rem;
+  box-shadow: 0.1rem 0.1rem 0.2rem black;
+}
+
+.dog-lives p {
+  margin: 0;
+  padding: 0 0.5rem 0.3rem 0;
+  font-family: 'paws';
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+
+.dog-lives-img {
+  height: 70%;
+  width: auto;
+  padding-right: 0.5rem;
+}
+
+
+
+
+
+/******************************************* ANIMALS *******************************************/
+
+.animals {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-top: 20%;
+}
+
+.dog-limits {
+  position: absolute;
+  top: 0;
+  margin-left: -5%;
+  width: 60%;
+  height: 50vh;
+}
+
+.dog-container {
+  position: absolute;
+  animation-fill-mode: forwards;
+}
+
+@keyframes dog-enter {
+  0%   { top: -20%; }
+  100% { top: 20%; }
+}
+
+.dog-enter {
+  animation-name: dog-enter;
+  /* animation-duration: 4s; */
+}
+
+@keyframes dog-process {
+  0% { top: 20%; }
+  100% { left: 40%; top: 100%; }
+}
+
+.dog-process {
+  animation-name: dog-process;
+  animation-duration: 4s;
+}
+
+.dog-img {
+  width: 4rem;
+  height: 4rem;
+  filter: drop-shadow(0rem 0.2rem 0.2rem black);
+}
+
+.dog-bubble {
+  position: absolute;
+  z-index: 10;
+  bottom: 1.2rem;
+  right: -2.5rem;
+  width: 4rem;
+  height: 3rem;
+  border: none;
+  outline: none;
+  background: none;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.dog-bubble img { 
+  position: absolute;
+  width: 100%;
+  height: auto;
+}
+
+.dog-bubble p {
+  position: absolute;
+  padding: 0 0.2rem 0.5rem 0;
+  font-family: 'paws';
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+@keyframes dog-down {
+  0%   { background-position: 5% 0; }
+  50%  { background-position: 100% 0; }
+  100% { background-position: 5% 0; }
+}
+
+.dog-down-animation {
+  animation-name: dog-down;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: steps(1, end);
+}
+
+@keyframes dog-up {
+  0%   { background-position: 5% 105%; }
+  50%  { background-position: 100% 105%; }
+  100% { background-position: 5% 105%; }
+}
+
+.dog-up-animation {
+  animation-name: dog-up;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: steps(1, end);
+}
+
+@keyframes dog-right {
+  0%   { background-position: 5% 70%; }
+  50%  { background-position: 100% 70%; }
+  100% { background-position: 5% 70%; } 
+}
+
+.dog-right-animation {
+  animation-name: dog-right;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: steps(1, end);
+}
+
+@keyframes dog-left {
+  0%   { background-position: 5% 38%; }
+  50%  { background-position: 100% 38%; }
+  100% { background-position: 5% 38%; }
+}
+
+.dog-left-animation {
+  animation-name: dog-left;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-timing-function: steps(1, end);
+}
+
+@keyframes dog-waiting {
+  0% { background-position: 50% 0%; }
+  85% { background-position: 5% 0; 
+        filter: drop-shadow(0rem 0.7rem 0.2rem black);
+        transform: rotateX(10deg); }
+  90% { background-position: 95% 0;
+        filter: drop-shadow(0rem 1rem 0.2rem black);
+        transform: rotateX(30deg); }
+  95% { background-position: 5% 0;
+        filter: drop-shadow(0rem 0.7rem 0.2rem black);
+        transform: rotateX(10deg);  }
+  100% { background-position: 50% 0%; }
+}
+
+.dog-waiting-animation {
+  animation-name: dog-waiting;
+  animation-duration: 3s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-timing-function: steps(1, end);
+}
+
+.dog-scottie-1 { background: url('./img/dog_sprites/dog_scottie_1.png') no-repeat; background-size: 300%; }
+.dog-scottie-2 { background: url('./img/dog_sprites/dog_scottie_2.png') no-repeat; background-size: 300%; }
+.dog-scottie-3 { background: url('./img/dog_sprites/dog_scottie_3.png') no-repeat; background-size: 300%; }
+.dog-scottie-4 { background: url('./img/dog_sprites/dog_scottie_4.png') no-repeat; background-size: 300%; }
+.dog-scottie-5 { background: url('./img/dog_sprites/dog_scottie_5.png') no-repeat; background-size: 300%; }
+.dog-scottie-6 { background: url('./img/dog_sprites/dog_scottie_6.png') no-repeat; background-size: 300%; }
+.dog-scottie-7 { background: url('./img/dog_sprites/dog_scottie_7.png') no-repeat; background-size: 300%; }
+.dog-scottie-8 { background: url('./img/dog_sprites/dog_scottie_8.png') no-repeat; background-size: 300%; }
+
+.dog-pomeranian-1 { background: url('./img/dog_sprites/dog_pomeranian_1.png') no-repeat; background-size: 300%; }
+.dog-pomeranian-2 { background: url('./img/dog_sprites/dog_pomeranian_2.png') no-repeat; background-size: 300%; }
+.dog-pomeranian-3 { background: url('./img/dog_sprites/dog_pomeranian_3.png') no-repeat; background-size: 300%; }
+.dog-pomeranian-4 { background: url('./img/dog_sprites/dog_pomeranian_4.png') no-repeat; background-size: 300%; }
+.dog-pomeranian-5 { background: url('./img/dog_sprites/dog_pomeranian_5.png') no-repeat; background-size: 300%; }
+.dog-pomeranian-6 { background: url('./img/dog_sprites/dog_pomeranian_6.png') no-repeat; background-size: 300%; }
+.dog-pomeranian-7 { background: url('./img/dog_sprites/dog_pomeranian_7.png') no-repeat; background-size: 300%; }
+.dog-pomeranian-8 { background: url('./img/dog_sprites/dog_pomeranian_8.png') no-repeat; background-size: 300%; }
+
+.dog-golden-1 { background: url('./img/dog_sprites/dog_golden_1.png') no-repeat; background-size: 300%; }
+.dog-golden-2 { background: url('./img/dog_sprites/dog_golden_2.png') no-repeat; background-size: 300%; }
+.dog-golden-3 { background: url('./img/dog_sprites/dog_golden_3.png') no-repeat; background-size: 300%; }
+.dog-golden-4 { background: url('./img/dog_sprites/dog_golden_4.png') no-repeat; background-size: 300%; }
+.dog-golden-5 { background: url('./img/dog_sprites/dog_golden_5.png') no-repeat; background-size: 300%; }
+.dog-golden-6 { background: url('./img/dog_sprites/dog_golden_6.png') no-repeat; background-size: 300%; }
+.dog-golden-7 { background: url('./img/dog_sprites/dog_golden_7.png') no-repeat; background-size: 300%; }
+.dog-golden-8 { background: url('./img/dog_sprites/dog_golden_8.png') no-repeat; background-size: 300%; }
+
+.dog-sntbernard-1 { background: url('./img/dog_sprites/dog_sntbernard_1.png') no-repeat; background-size: 300%; }
+.dog-sntbernard-2 { background: url('./img/dog_sprites/dog_sntbernard_2.png') no-repeat; background-size: 300%; }
+.dog-sntbernard-3 { background: url('./img/dog_sprites/dog_sntbernard_3.png') no-repeat; background-size: 300%; }
+.dog-sntbernard-4 { background: url('./img/dog_sprites/dog_sntbernard_4.png') no-repeat; background-size: 300%; }
+.dog-sntbernard-5 { background: url('./img/dog_sprites/dog_sntbernard_5.png') no-repeat; background-size: 300%; }
+.dog-sntbernard-6 { background: url('./img/dog_sprites/dog_sntbernard_6.png') no-repeat; background-size: 300%; }
+.dog-sntbernard-7 { background: url('./img/dog_sprites/dog_sntbernard_7.png') no-repeat; background-size: 300%; }
+.dog-sntbernard-8 { background: url('./img/dog_sprites/dog_sntbernard_8.png') no-repeat; background-size: 300%; }
+
+.dog-corgi-1 { background: url('./img/dog_sprites/dog_corgi_1.png') no-repeat; background-size: 300%; }
+.dog-corgi-2 { background: url('./img/dog_sprites/dog_corgi_2.png') no-repeat; background-size: 300%; }
+.dog-corgi-3 { background: url('./img/dog_sprites/dog_corgi_3.png') no-repeat; background-size: 300%; }
+.dog-corgi-4 { background: url('./img/dog_sprites/dog_corgi_4.png') no-repeat; background-size: 300%; }
+.dog-corgi-5 { background: url('./img/dog_sprites/dog_corgi_5.png') no-repeat; background-size: 300%; }
+.dog-corgi-6 { background: url('./img/dog_sprites/dog_corgi_6.png') no-repeat; background-size: 300%; }
+.dog-corgi-7 { background: url('./img/dog_sprites/dog_corgi_7.png') no-repeat; background-size: 300%; }
+.dog-corgi-8 { background: url('./img/dog_sprites/dog_corgi_8.png') no-repeat; background-size: 300%; }
+
+.dog-wolfdog-1 { background: url('./img/dog_sprites/dog_wolfdog_1.png') no-repeat; background-size: 300%; }
+.dog-wolfdog-2 { background: url('./img/dog_sprites/dog_wolfdog_2.png') no-repeat; background-size: 300%; }
+.dog-wolfdog-3 { background: url('./img/dog_sprites/dog_wolfdog_3.png') no-repeat; background-size: 300%; }
+.dog-wolfdog-4 { background: url('./img/dog_sprites/dog_wolfdog_4.png') no-repeat; background-size: 300%; }
+.dog-wolfdog-5 { background: url('./img/dog_sprites/dog_wolfdog_5.png') no-repeat; background-size: 300%; }
+.dog-wolfdog-6 { background: url('./img/dog_sprites/dog_wolfdog_6.png') no-repeat; background-size: 300%; }
+.dog-wolfdog-7 { background: url('./img/dog_sprites/dog_wolfdog_7.png') no-repeat; background-size: 300%; }
+.dog-wolfdog-8 { background: url('./img/dog_sprites/dog_wolfdog_8.png') no-repeat; background-size: 300%; }
+
+
+
+
+
+/******************************************* FENCE *******************************************/
+
+.fence {
+  position: absolute;
+  top: 30vh;
+  width: 100%;
+  height: 20vh;
+  display: flex;
+  justify-content: center;
+}
+
+.fence-background {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 16vh;
+  background: url('./img/fence.png') no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 100%;
+}
+
+.fence-lighted {
+  background: url('./img/fence_lighted.png') no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 100%;
+}
+
+.fence-door {
+  position: absolute;
+  bottom: 0;
+  width: 30%;
+  height: 8vh;
+  background: url('./img/gate.png') no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 100%;
+  
+}
+
+@keyframes open-door {
+  0%   {transform: translateX(0);}
+  25%  {transform: translateX(100%);}
+  75%  {transform: translateX(100%);}
+  100% {transform: translateX(0);}
+}
+
+.fence-door-open {
+  animation-name: open-door;
+  animation-duration: 4s;
+  animation-timing-function: linear;
+}
+
+@keyframes stack-door {
+  0%   {transform: translateX(0);}
+  30%  {transform: translateX(40%);}
+  40%  {transform: translateX(50%);}
+  50%  {transform: translateX(40%);}
+  60%  {transform: translateX(50%);}
+  100% {transform: translateX(0%);}
+}
+
+.fence-stack-door {
+  animation-name: stack-door;
+  animation-fill-mode: forwards;
+  animation-duration: 1.5s;
+  animation-timing-function: linear;
+}
+
+.fence-handle {
+  position: absolute;
+  z-index: 1;
+  bottom: 10%;
+  left: 20%;
+  width: 4vh;
+  height: 4vh;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  background: url('./img/gate_wheel.png') no-repeat;
+  background-size: 100% 100%;
+  filter: drop-shadow(0 0 2px black);
+}
+
+@keyframes handle-move {
+  0%   {transform: rotate(0turn);}
+  /* 25%  {transform: rotate(0.25turn);} */
+  50%  {transform: rotate(0.5turn);}
+  /* 75%  {transform: rotate(0.65turn);} */
+  100% {transform: rotate(0turn);}
+}
+
+.fence-handle-move {
+  animation-name: handle-move;
+  animation-duration: 4s;
+  animation-timing-function: linear;
+}
+
+
+
+
+
+/******************************************* CONDITIONS *******************************************/
+
+.conditions {
+  position: absolute;
+  top: 50vh;
+  width: 100%;
+  height: 40vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  align-items: center;
+}
+
+.conditions-title-container {
+  position: relative;
+  width: 100%;
+  height: 6vh;
+  background-color: maroon;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  text-shadow: 2px 2px 2px black;
+}
+
+.conditions-explain {
+  width: 100%;
+  height: 3vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.conditions-explain p {
+  width: 33.3%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.condition-needed {
+  background-color: white;
+}
+
+.condition-excluding {
+  background-color: black;
+  color: white;
+}
+
+.condition-optional {
+  background-color: saddleBrown;
+  color: white;
+}
+
+.conditions-title {
+  margin: 0;
+  padding: 0;
+  font-family: 'paws';
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+  color: white;
+  text-transform: uppercase;
+}
+
+.conditions-tags-container {
+  position: relative;
+  width: 100%;
+  height: 31vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  background: url('./img/conditions_background.png') no-repeat;
+  background-size: 100% auto;
+  overflow: hidden;
+}
+
+.condition-tag {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 2rem;
+  border-radius: 0.4rem;
+  box-shadow: 0.2rem 0.2rem 0.2rem black;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.condition-tag-container {
+  margin: 1rem;
+}
+
+.condition-tag img {
+  width: auto;
+  height: 70%;
+  margin-left: 0.5rem;
+}
+
+.condition-invert-img {
+  filter: invert(1);
+}
+
+.condition-tag p {
+  margin: 0;
+  padding: 0;
+  margin: 0 0.5rem;
+
+}
+
+@keyframes condition-lock {
+  0%   { top: -100%; }
+  100% { top: 0; }
+}
+
+.conditions-lock {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 31vh;
+  background: url('./img/conditions_block.png') no-repeat;
+  background-size: 100% 100%;
+  animation-name: condition-lock;
+  animation-duration: 1s;
+}
+
+@keyframes condition-unlock {
+  0%   { top: 0; }
+  100% { top: -100%; }
+}
+
+.conditions-unlock {
+  animation-name: condition-unlock;
+  animation-duration: 1s;
+}
+
+
+
+
+
+/******************************************* PLAYER_BUTTONS *******************************************/
+
+.player-buttons {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  font-size: 35px;
+}
+
+.player-buttons-background {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid white;
+}
+
+.player-buttons-reject-background {
+  background-image: radial-gradient(circle, rgb(248, 48, 41) 0%, rgb(198, 15, 15) 42%, rgb(117, 11, 11) 100%);
+}
+
+.player-buttons-accept-background {
+  background-image: radial-gradient(circle, rgba(136,222,41,1) 0%, rgb(16, 184, 78) 42%, rgb(31, 142, 11) 100%);
+}
+
+.player-buttons-reject {
+  width: 50%;
+  height: 100%;
+  background: url('./img/buttons/dog_button_reject.png') no-repeat ;
+  background-position: 50% 50%;
+  background-size: auto 70%;
+  border: none;
+  outline: none;
+}
+
+@keyframes moving-button-reject {
+  0%   {transform: rotate(0turn);}
+  25%  {transform: rotate(0.10turn);}
+  75%  {transform: rotate(-0.10turn);}
+  100% {transform: rotate(0turn);}
+}
+
+.player-buttons-reject:active {
+  animation-name: moving-button-reject;
+  animation-duration: 0.35s;
+  animation-timing-function: linear;
+}
+
+.player-buttons-accept {
+  width: 50%;
+  height: 100%;
+  background: url('./img/buttons/dog_button_accept.png') no-repeat ;
+  background-position: 50% 50%;
+  background-size: auto 70%;
+  border: none;
+  outline: none;
+}
+
+@keyframes moving-button-accept {
+  0%   {transform: rotate(0turn);}
+  25%  {transform: rotate(-0.10turn);}
+  75%  {transform: rotate(0.10turn);}
+  100% {transform: rotate(0turn);}
+}
+
+.player-buttons-accept:active {
+  animation-name: moving-button-accept;
+  animation-duration: 0.35s;
+  animation-timing-function: linear;
+}
+
+
+
+
+
+/******************************************* FUSE_BOXES *******************************************/
+
+.fuse-box {
+  width: 3vh;
+  height: 4vh;
+  position: absolute;
+  right: 10%;
+  top: 70%;
+  z-index: 700;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  background-size: 3vh 4vh;
+  background-image: url('./img/fuse.png');
+}
+
+.fuse-box img {
+  width: 100%;
+  height: auto;
+}
+
+.modal-fuse-box {
+  height: 12%;
+  width: 17%;
+  margin-top: 40%;
+  background-color: white;
+  border-radius: 1rem;
+  border: 0.5rem solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.modal-fuse-box-off {
+  height: 80%;
+  width: 80%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: url('./img/fuse_button_off.png') no-repeat;
+  background-size: 100% 100%;
+}
+
+.modal-fuse-box-on {
+  height: 100%;
+  width: 100%;
+}
+
+
+
+
+
+/******************************************* MODAL *******************************************/
+
+.modal-background {
+  position: absolute;
+  z-index: 999;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display:flex;
+  justify-content: center;
+}
+
+.modal-window {
+  /* display: flex;
+  justify-content: center; */
+  min-height: 50%;
+  min-width: 60%;
+  max-height: 50%;
+  max-width: 60%;
+  background-color: white;
+  border-radius: 1em;
+  border-style: dashed;
+  box-shadow: 
+  0 0 80px rgb(67, 203, 221),
+  0 0 100px rgb(12, 0, 46);
+}
+
+.modal-dog {
+  position: absolute;
+  top: 0;
+  width: 60%;
+  height: 55vh;
+}
+
+.modal-dog-background {
+  position: relative;
+  height: 55vh;
+  width: 100%;
+  background: url('./img/dog_card_background.png') no-repeat;
+  background-size: 100% 100%;
+}
+
+.modal-dog-background-back {
+  background: url('./img/dog_card_background_turn.png') no-repeat;
+  background-size: 100% 100%;
+}
+
+.modal-dog-card {
+  position: absolute;
+  top: 30%;
+  left: 10%;
+  width: 80%;
+  height: 35vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-dog-img {
+  width: 45%;
+  height: 12vh;
+  margin-top: 1rem;
+}
+
+.modal-dog-img1 { 
+  background: url('./img/dog_img/dog1.png') no-repeat;
+  background-size: 100% 100%; 
+}
+
+.modal-dog-img2 { 
+  background: url('./img/dog_img/dog2.png') no-repeat;
+  background-size: 100% 100%; 
+}
+
+.modal-dog-img3 { 
+  background: url('./img/dog_img/dog3.png') no-repeat;
+  background-size: 100% 100%; 
+}
+
+.modal-dog-img4 { 
+  background: url('./img/dog_img/dog4.png') no-repeat;
+  background-size: 100% 100%; 
+}
+
+.modal-dog-img5 { 
+  background: url('./img/dog_img/dog5.png') no-repeat;
+  background-size: 100% 100%; 
+}
+
+.modal-dog-img6 { 
+  background: url('./img/dog_img/dog6.png') no-repeat;
+  background-size: 100% 100%; 
+}
+
+.modal-dog-img7 { 
+  background: url('./img/dog_img/dog7.png') no-repeat;
+  background-size: 100% 100%; 
+}
+
+.modal-dog-img8 { 
+  background: url('./img/dog_img/dog8.png') no-repeat;
+  background-size: 100% 100%; 
+}
+
+.modal-dog-img9 { 
+  background: url('./img/dog_img/dog9.png') no-repeat;
+  background-size: 100% 100%; 
+}
+
+.modal-dog-img10 { 
+  background: url('./img/dog_img/dog10.png') no-repeat;
+  background-size: 100% 100%; 
+}
+
+.modal-dog-img11 { 
+  background: url('./img/dog_img/dog11.png') no-repeat;
+  background-size: 100% 100%; 
+}
+
+.modal-dog-img12 { 
+  background: url('./img/dog_img/dog12.png') no-repeat;
+  background-size: 100% 100%; 
+}
+
+.modal-dog-img13 { 
+  background: url('./img/dog_img/dog13.png') no-repeat;
+  background-size: 100% 100%; 
+}
+
+.modal-dog-img14 { 
+  background: url('./img/dog_img/dog14.png') no-repeat;
+  background-size: 100% 100%; 
+}
+
+.modal-dog-img15 { 
+  background: url('./img/dog_img/dog15.png') no-repeat;
+  background-size: 100% 100%; 
+}
+
+.modal-dog-img16 { 
+  background: url('./img/dog_img/dog16.png') no-repeat;
+  background-size: 100% 100%; 
+}
+
+.modal-dog-name {
+  margin-top: 0.5rem;
+  font-family: 'paws';
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.modal-dog-front-attributes {
+  width: 90%;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.modal-dog-genre {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(194, 194, 194);
+  border: 1px solid gray;
+  border-radius: 3rem;
+}
+
+.modal-dog-genre img {
+  width: 1.5rem;
+  height: auto;
+}
+
+.modal-dog-turn {
+  position: absolute;
+  bottom: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  background: url('./img/dog_card_turn.png') no-repeat;
+  background-size: 100% 100%;
+  border: none;
+  outline: none;
+}
+
+.modal-dog-vaccine {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: url('./img/dog_vaccine.png') no-repeat;
+  background-size: 70% 70%;
+  background-position: center;
+  border: 1px solid gray;
+  background-color: rgb(194, 194, 194);
+  border-radius: 3rem;
+}
+
+.modal-dog-vaccine img {
+  position: absolute;
+  bottom: -0.5rem;
+  right: -0.5rem;
+  width: 2rem;
+  height: auto;
+}
+
+.modal-dog-card-reflex {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40vh;
+  margin: 0;
+  padding: 0;
+  background: url('./img/dog_card_reflex.png') no-repeat;
+  background-size: 92% 100%;
+  background-position-x: 55%;
+  pointer-events: none;
+}
+
+.modal-dog-back-attributes {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-dog-attribute-title {
+  font-family: 'paws';
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.modal-dog-attribute {
+  width: 80%;
+  margin-top: 1rem;
+}
+
+.modal-dog-attribute p {
+  margin: 0;
+  padding: 0;
+}
+
+.modal-dog-attribute-danger {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: url('./img/dog_danger.png') no-repeat;
+  background-size: 70% 70%;
+  background-position: center;
+  border: 1px solid gray;
+  background-color: rgb(194, 194, 194);
+  border-radius: 3rem;
+}
+
+.modal-dog-danger {
+  position: absolute;
+  bottom: -0.5rem;
+  right: -1rem;
+  width: 2rem;
+  height: auto;
+}
+
+.modal-dog-attribute-p::first-letter {
+  text-transform: uppercase;
+}
+
+.modal-dog-attribute-p {
+  font-size: 1rem;
+}
+
+.modal-dog-card-reflex-back {
+  background-position-x: 52%;
+}
+
+.modal-tutorial {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-tutorial-content {
+  width: 80%;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 1rem;
+  border: 0.5rem solid black;
+}
+
+.modal-tutorial-text {
+  margin-top: -1rem;
+  padding: 0 2rem;
+}
+
+.modal-tutorial-buttons {
+  position: absolute;
+  width: 70%;
+  height: 5vh;
+  bottom: 1.5rem;
+}
+
+.modal-tutorial-button {
+  width: 4rem;
+  height: 5vh;
+  background: none;
+  border: none;
+  outline: none;
+  filter: drop-shadow(1px 1px 1px black);
+}
+
+.modal-tutorial-prev {
+  position: absolute;
+  left: 0;
+  background: url('./img/buttons/prev.png') no-repeat;
+  background-size: 100% 100%;
+}
+
+.modal-tutorial-title {
+  font-family: 'paws';
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.modal-tutorial-text {
+  line-height: 1.2;
+  font-size: 1rem;
+}
+
+.modal-tutorial-next {
+  position: absolute;
+  right: 0;
+  background: url('./img/buttons/next.png') no-repeat;
+  background-size: 100% 100%;
+}
+
+.modal-tutorial-start {
+  position: absolute;
+  right: 2rem;
+  font-family: 'paws';
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  color: maroon;
+  text-shadow: 1px 1px 1px black;
+}
+
+.fail-text {
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.fail-text p {
+  margin: 0;
+  padding: 0;
+  font-family: 'paws';
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.modal-success {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+
+/******************************************* NIGHT *******************************************/
+
+.night-background {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 50vh;
+  width: 100%;
+  height: 60vh;
+  background-color: black;
+  opacity: 0.75;
+}
+
+.night-lights {
+  opacity: 1;
+  background: radial-gradient(ellipse 300% 75%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 50%, rgba(0,0,0,1) 100%) no-repeat;
+  background-size: 100% 100%;
+}
+
+.night-dog-card {
+  position: absolute;
+  top: 0;
+  height: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.95;
+  pointer-events: none;
+}
+
+.night-dog-card-front {
+  background: url('./img/dog_card_background_night.png') no-repeat;
+  background-size: 100% 100%;
+}
+
+.night-dog-card-back {
+  background: url('./img/dog_card_background_turn_night.png') no-repeat;
+  background-size: 100% 100%;
+}
+
+
+
+
+
+/******************************************* LOGIN *******************************************/
+
+.login {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: url('./img/login_background.png') no-repeat;
+  background-size: auto 100%;
+}
+
+.title {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.5rem 0;
+  font-family: 'paws';
+  font-size: 2.5rem;
+  color: white;
+  text-align: center;
+  background-color: black;
+}
+
+.login-data {
+  position: relative;
+  width: 90%;
+  /* height: 55vh; */
+  margin-top: 5rem;
+  padding: 0;
+  background-color: maroon;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  box-shadow: 2px 2px 2px black;
+}
+
+.login-data a {
+  /* position: absolute;
+  bottom: 2rem; */
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  font-family: 'paws';
+  /* font-weight: bold; */
+  font-size: 1.5rem;
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: black;
+  border: 1px solid white;
+}
+
+.login button {
+  padding: 0.5rem;
+  /* font-weight: bold; */
+  font-size: 1.5rem;
+  color: white;
+  font-family: 'paws';
+  text-transform: uppercase;
+  text-decoration: none;
+  background-color: black;
+  border: 1px solid white;
+}
+
+.login-data input {
+  width: 3rem;
+  height: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.login p {
+  margin: 1rem 0;
+  font-weight: bold;
+  font-size: 1rem;
+  background: none;
+  border: none;
+  outline: none;
+  color: white;
+  text-align: center;
+}
+
+.login-new-user {
+  width: 3.5rem;
+  height: 2rem;
+  background-color: rgb(193, 193, 193);
+  border-radius: 0.2rem;
+  border: 1px solid gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+
+
+
+
+/******************************************* RESULTS *******************************************/
+
+.results {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url('./img/login_background.png') no-repeat;
+  background-size: auto 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.results p {
+  margin: 0;
+  padding: 0.5rem 0;
+}
+
+.results table {
+  position: absolute;
+  top: 6rem;
+  width: 90%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.results-button {
+  position: absolute;
+  bottom: 2rem;
+  padding: 0.5rem;
+  font-family: 'paws';
+  /* font-weight: bold; */
+  font-size: 1.5rem;
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: black;
+  border: 1px solid white;
+}
+
+.results-header {
+  background-color: black;
+}
+
+.results th {
+  height: 2rem;
+  font-family: 'paws';
+  font-size: 1rem;
+  text-align: center;
+  color: white;
+  text-transform: uppercase;
+  background-color: black;
+}
+
+.results tr:nth-child(even) {
+  background-color: rgb(230, 230, 230);
+}
+
+.results-row-level {
+  width: 15%;
+  font-family: 'paws';
+  font-size: 1rem;
+  text-align: center;
+}
+
+.results-row-atemts { 
+  width: 15%; 
+  text-align: center;
+}
+
+.results-row-especial { 
+  width: 20%; 
+  text-align: center;
+}
+
+.results-row-time { 
+  width: 25%; 
+  text-align: center;
+}
+
+.results-row-response { 
+  width: 25%; 
+  text-align: center;
+}
+
+.results-total {
+  font-family: 'paws';
+  font-weight: bold;
+}
+
+
+
+
+
+/******************************************* MEDIA QUERIES *******************************************/
+
+
+@media (min-width: 700px) and (orientation: landscape) { 
+  body { 
+    max-width: 30%;
+    margin: 0 auto;
+  }
+ }
