@@ -184,18 +184,18 @@ function Game(props) {
   }
 
   const updateStartDB = () => {
-    // let startTime = Date.now();
-    // updateUserData(level.levelName, null, null, null, null, 'start: ' + startTime);
+    let startTime = Date.now();
+    updateUserData(level.levelName, null, null, null, null, 'start: ' + startTime);
   }
 
   const updateEndDB = (lives, pass, skip, abandon) => {
-    // let endTime = Date.now();
-    // updateUserData(level.levelName, lives, pass, skip, abandon, 'end: ' + endTime);
+    let endTime = Date.now();
+    updateUserData(level.levelName, lives, pass, skip, abandon, 'end: ' + endTime);
   }
 
   const updateClickDB = () => {
-    // let clickTime = Date.now();
-    // updateUserData(level.levelName, null, null, null, null, clickTime);
+    let clickTime = Date.now();
+    updateUserData(level.levelName, null, null, null, null, clickTime);
   }
 
   useEffect(() => {

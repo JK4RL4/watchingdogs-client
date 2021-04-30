@@ -160,7 +160,7 @@ function App() {
   useEffect(() => {
     if (staticUserId.current && !updatingFlag.current) {
       updatingFlag.current = true;
-      putUserData();
+      // putUserData();
     }
   }, [updateData.current]) 
 
